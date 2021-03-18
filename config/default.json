@@ -10,8 +10,8 @@
     "oauth": {
       "redirect": "/",
       "github": {
-        "key": "<Client ID>",
-        "secret": "<Client secret>"
+        "key": "3edf3cd68722ab5a596b",
+        "secret": "GITHUB_OAUTH_CLIENT_SECRET"
       }
     },
     "entity": "user",
@@ -35,5 +35,5 @@
       "passwordField": "password"
     }
   },
-  "nedb": "../data"
+  "postgres": "postgres://user0:a@localhost:5432/feathers_chat"
 }

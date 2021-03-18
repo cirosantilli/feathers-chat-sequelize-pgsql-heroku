@@ -1,59 +1,62 @@
-# feathers-chat
+# feathers-chat sequelize PostgreSQL + Heroku
 
-[![CI](https://github.com/feathersjs/feathers-chat/workflows/CI/badge.svg)](https://github.com/feathersjs/feathers-chat/actions?query=workflow%3ACI)
+This is a fork of the Feathers.js hello world app https://github.com/feathersjs/feathers-chat but working on:
 
-> A FeathersJS chat application
+- PostgreSQL via sequelize instead of the default disk-based NeDB.
+- heroku
 
-## About
+This achieves a similar goal to:
 
-This project uses [Feathers](http://feathersjs.com), a framework for real-time applications and REST APIs. It contains the chat application created in [the Feathers guide](https://docs.feathersjs.com/guides/) and a frontend in plain JavaScript.
+- https://github.com/pedrogk/feathers-chat-sequelize
+- https://github.com/catalyst-technologies/feathers-chat-pgsql
 
-![The Feathers chat application](https://docs.feathersjs.com/assets/img/feathers-chat.91960785.png)
+but both of those were failing on my Ubuntu 20.10 Node 14.16.0 presumably because of my incompatible Node/PostgreSQL versions, and I couldn't easily find in which versions the authors had tested to reproduce without further debugging.
 
-Other chat frontends can be found at:
+So in the end I just took inspiration from their code, and re-ported the official feathers-chat instead, since that was working out-of-the box on my system.
 
-- TypeScript: [feathersjs/feathers-chat-ts](https://github.com/feathersjs/feathers-chat-ts)
-- React: [feathersjs-ecosystem/feathers-chat-react](https://github.com/feathersjs-ecosystem/feathers-chat-react)
-- React Native: [feathersjs-ecosystem/feathers-react-native-chat](https://github.com/feathersjs-ecosystem/feathers-react-native-chat)
-- Angular: [feathersjs-ecosystem/feathers-chat-angular](https://github.com/feathersjs-ecosystem/feathers-chat-angular)
-- VueJS with Vuex: [feathers-plus/feathers-chat-vuex](https://github.com/feathers-plus/feathers-chat-vuex)
+The original motivation for this is to be able to run in Heroku, which provides a PostgreSQL database, but no persistent filesystem storage: https://stackoverflow.com/questions/42775418/heroku-local-persistent-storage
 
-> __Important:__ This project requires NodeJS 10 or later.
+## Local test
 
-## Getting Started
-
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/feathers-chat
-    npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
-
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-Feathers has a powerful command line interface. Here are a few things it can do:
+To run locally, all you need to do is to first ensure that the PostgreSQL connection string under [config/default.json](config/default.json) is correct:
 
 ```
-$ npm install -g @feathersjs/cli          # Install Feathers CLI
-
-$ feathers generate service               # Generate a new Service
-$ feathers generate hook                  # Generate a new Hook
-$ feathers help                           # Show all commands
+  "postgres": "postgres://user0:a@localhost:5432/feathers_chat"
 ```
 
-## Help
+which means creating that user and database with commands along the lines of:
 
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+```
+createuser -P user0
+createdb user0
+createdb feathers_chat
+psql -c 'GRANT ALL PRIVILEGES ON DATABASE feathers_chat TO user0'
+```
+
+Once that is done, just run as usual:
+
+```
+npm install
+npm start
+```
+
+## Heroku deployment
+
+- enable the PostgreSQL Heroku add-on with:
+
+  ```
+  heroku addons:create heroku-postgresql:hobby-dev-
+  ```
+
+  This automatically sets the `DATABASE_URL` environment variable for us.
+- in [config/production.json](config/production.json) edit `host` to your correct value
+- in the Heroku app Settings, set the `NODE_ENV` environment variable to `production`
+
+After running those steps, we managed to get the app running successfully at <https://cirosantilli-feathersjs-chat.herokuapp.com/> on March 2021!!!
+
+Further overview at: https://stackoverflow.com/questions/47270219/deploy-feathersjs-app-on-heroku/66723974#66723974
+
+TODO:
+
+- get GitHub authentication working. We tried, and it goes into the GitHub permission page, but then you get redirected to the home page not logged in.
+- require email confirmation for account creation

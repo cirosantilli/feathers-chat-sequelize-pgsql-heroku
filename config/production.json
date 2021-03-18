@@ -1,4 +1,5 @@
 {
-  "host": "feathers-chat-app.feathersjs.com",
-  "port": "PORT"
+  "host": "cirosantilli-feathersjs-chat.herokuapp.com",
+  "port": "PORT",
+  "postgres": "DATABASE_URL"
 }
