@@ -18,22 +18,7 @@ The original motivation for this is to be able to run in Heroku, which provides 
 
 ## Local test
 
-To run locally, all you need to do is to first ensure that the PostgreSQL connection string under [config/default.json](config/default.json) is correct:
-
-```
-  "postgres": "postgres://user0:a@localhost:5432/feathers_chat"
-```
-
-which means creating that user and database with commands along the lines of:
-
-```
-createuser -P user0
-createdb user0
-createdb feathers_chat
-psql -c 'GRANT ALL PRIVILEGES ON DATABASE feathers_chat TO user0'
-```
-
-Once that is done, just run as usual:
+When running locally outside of `NODE_ENV=production`, sqlite3 is used, so you don't have to worry about database connections, just run the usual:
 
 ```
 npm install

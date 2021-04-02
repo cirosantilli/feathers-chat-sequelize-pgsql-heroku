@@ -1,5 +1,5 @@
 {
   "host": "cirosantilli-feathersjs-chat.herokuapp.com",
   "port": "PORT",
-  "postgres": "DATABASE_URL"
+  "connectionString": "DATABASE_URL"
 }

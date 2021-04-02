@@ -35,5 +35,5 @@
       "passwordField": "password"
     }
   },
-  "postgres": "postgres://user0:a@localhost:5432/feathers_chat"
+  "connectionString": "../data/db.sqlite3"
 }

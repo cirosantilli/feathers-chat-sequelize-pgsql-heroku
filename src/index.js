@@ -8,12 +8,14 @@ process.on('unhandledRejection', (reason, p) =>
   logger.error('Unhandled Rejection at: Promise ', p, reason)
 );
 
-logger.info('envirnoment:');
-for (const key of Object.keys(process.env).sort()) {
-  logger.info(`${key} ${process.env[key]}`);
+if (process.env.NODE_ENV === 'production') {
+  logger.info('envirnoment:');
+  for (const key of Object.keys(process.env).sort()) {
+    logger.info(`${key} ${process.env[key]}`);
+  }
+  logger.info();
+  logger.info('authentication.oauth.github.secret ' + app.get('authentication').oauth.github.secret);
 }
-logger.info();
-logger.info('authentication.oauth.github.secret ' + app.get('authentication').oauth.github.secret);
 
 server.on('listening', () =>
   logger.info('Feathers application started on http://%s:%d', app.get('host'), port)

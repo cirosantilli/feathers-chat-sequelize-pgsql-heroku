@@ -19,21 +19,20 @@ const loginHTML = `<main class="login container">
     <div class="col-12 col-6-tablet push-3-tablet col-4-desktop push-4-desktop">
       <form class="form">
         <fieldset>
+          <input class="block" type="text" name="name" placeholder="name">
+        </fieldset>
+        <fieldset>
           <input class="block" type="email" name="email" placeholder="email">
         </fieldset>
-
         <fieldset>
           <input class="block" type="password" name="password" placeholder="password">
         </fieldset>
-
         <button type="button" id="login" class="button button-primary block signup">
           Log in
         </button>
-
         <button type="button" id="signup" class="button button-primary block signup">
           Sign up and log in
         </button>
-
         <a class="button button-primary block" href="/oauth/github">
           Login with GitHub
         </a>
@@ -51,7 +50,6 @@ const chatHTML = `<main class="flex flex-column">
       <span class="title">Chat</span>
     </div>
   </header>
-
   <div class="flex flex-row flex-1 clear">
     <aside class="sidebar col col-3 flex flex-column flex-space-between">
       <header class="flex flex-row flex-center">
@@ -59,18 +57,15 @@ const chatHTML = `<main class="flex flex-column">
           <span class="font-600 online-count">0</span> users
         </h4>
       </header>
-
       <ul class="flex flex-column flex-1 list-unstyled user-list"></ul>
       <footer class="flex flex-row flex-center">
-        <a href="#" id="logout" class="button button-primary">
+        <a href="" id="logout" class="button button-primary">
           Sign Out
         </a>
       </footer>
     </aside>
-
     <div class="flex flex-column col col-9">
       <main class="chat flex flex-column flex-1 clear"></main>
-
       <form class="flex flex-row flex-space-between" id="send-message">
         <input type="text" name="text" class="flex flex-1">
         <button class="button-primary" type="submit">Send</button>
@@ -86,19 +81,14 @@ const escape = str => str.replace(/&/g, '&amp;')
 // Add a new user to the list
 const addUser = user => {
   const userList = document.querySelector('.user-list');
-
   if(userList) {
-    // Add the user to the list
     userList.innerHTML += `<li>
-      <a class="block relative" href="#">
+      <a class="block relative" href="">
         <img src="${user.avatar}" alt="" class="avatar">
-        <span class="absolute username">${escape(user.name || user.email)}</span>
+        <span class="absolute username">${escape(user.name)} ${escape(user.email)}</span>
       </a>
     </li>`;
-
-    // Update the number of users
     const userCount = document.querySelectorAll('.user-list li').length;
-    
     document.querySelector('.online-count').innerHTML = userCount;
   }
 };
@@ -113,10 +103,10 @@ const addMessage = message => {
 
   if(chat) {
     chat.innerHTML += `<div class="message flex flex-row">
-      <img src="${user.avatar}" alt="${user.name || user.email}" class="avatar">
+      <img src="${user.avatar}" alt="${escape(user.name)} ${escape(user.email)}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
-          <span class="username font-600">${escape(user.name || user.email)}</span>
+          <span class="username font-600">${escape(user.name)} ${escape(user.email)}</span>
           <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
         </p>
         <p class="message-content font-300">${text}</p>
@@ -148,7 +138,7 @@ const showChat = async () => {
       $limit: 25
     }
   });
-  
+
   // We want to show the newest message last
   messages.data.reverse().forEach(addMessage);
 
@@ -161,12 +151,11 @@ const showChat = async () => {
 
 // Retrieve email/password object from the login/signup page
 const getCredentials = () => {
-  const user = {
+  return {
+    name: document.querySelector('[name="name"]').value,
     email: document.querySelector('[name="email"]').value,
     password: document.querySelector('[name="password"]').value
   };
-
-  return user;
 };
 
 // Log in either using the given email/password or the token from storage
@@ -201,26 +190,19 @@ const addEventListener = (selector, event, handler) => {
 
 // "Signup and login" button click handler
 addEventListener('#signup', 'click', async () => {
-  // For signup, create a new user and then log them in
   const credentials = getCredentials();
-    
-  // First create the user
   await client.service('users').create(credentials);
-  // If successful log them in
   await login(credentials);
 });
 
 // "Login" button click handler
 addEventListener('#login', 'click', async () => {
-  const user = getCredentials();
-
-  await login(user);
+  await login(getCredentials());
 });
 
 // "Logout" button click handler
 addEventListener('#logout', 'click', async () => {
   await client.logout();
-    
   document.getElementById('app').innerHTML = loginHTML;
 });
 
