@@ -2,7 +2,7 @@
 
 This is a fork of the Feathers.js hello world app https://github.com/feathersjs/feathers-chat but working on:
 
-- PostgreSQL via sequelize instead of the default disk-based NeDB.
+- PostgreSQL via sequelize instead of the default disk-based NeDB. Local tests run on SQLite instead so you don't have to worry about configuring database connections.
 - heroku
 
 This achieves a similar goal to:
@@ -18,7 +18,7 @@ The original motivation for this is to be able to run in Heroku, which provides 
 
 ## Local test
 
-When running locally outside of `NODE_ENV=production`, sqlite3 is used, so you don't have to worry about database connections, just run the usual:
+When running locally outside of `NODE_ENV=production`, SQLite is used, so you don't have to worry about configuring database connections, just run the usual:
 
 ```
 npm install
