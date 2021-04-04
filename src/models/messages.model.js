@@ -1,5 +1,4 @@
 const sequelize = require('sequelize');
-const path = require('path');
 
 module.exports = function (app) {
   const message = app.get('sequelizeClient').define('messages', {

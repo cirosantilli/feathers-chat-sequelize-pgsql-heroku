@@ -24,7 +24,7 @@ class Users extends Service {
     const hash = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
     return `https://s.gravatar.com/avatar/${hash}?s=60`;
   }
-};
+}
 
 function createModel(app) {
   const sequelizeClient = app.get('sequelizeClient');
@@ -53,9 +53,10 @@ function createModel(app) {
       }
     }
   });
+  // eslint-disable-next-line no-unused-vars
   users.associate = function (models) {};
   return users;
-};
+}
 
 
 // Entry point to this file.
