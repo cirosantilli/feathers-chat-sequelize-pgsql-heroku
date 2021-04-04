@@ -35,5 +35,5 @@
       "passwordField": "password"
     }
   },
-  "connectionString": "../data/db.sqlite3"
+  "connectionString": "../data/default.sqlite3"
 }

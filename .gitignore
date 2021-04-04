@@ -109,5 +109,5 @@ $RECYCLE.BIN/
 # Others
 lib/
 data/
-test/data
+test/data*
 .nyc_output

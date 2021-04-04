@@ -23,12 +23,12 @@
     "npm": ">= 6.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run coverage",
-    "coverage": "nyc npm run mocha",
+    "test": "npm run eslint && npm run coverage --",
+    "coverage": "nyc npm run mocha --",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "node src/",
-    "clean": "shx rm -rf test/data/",
+    "clean": "shx rm -rf test/data.sqlite3",
     "update-dependencies": "ncu -u",
     "mocha": "npm run clean && NODE_ENV=test mocha test/ --recursive --exit"
   },
