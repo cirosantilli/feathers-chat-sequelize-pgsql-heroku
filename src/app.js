@@ -1,24 +1,21 @@
-const path = require('path');
-const favicon = require('serve-favicon');
 const compress = require('compression');
-const helmet = require('helmet');
 const cors = require('cors');
-const logger = require('./logger');
+const favicon = require('serve-favicon');
+const helmet = require('helmet');
+const path = require('path');
 
-const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
+const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio');
 
-
-const middleware = require('./middleware');
-const services = require('./services');
 const appHooks = require('./app.hooks');
-const channels = require('./channels');
-
 const authentication = require('./authentication');
-
+const channels = require('./channels');
+const logger = require('./logger');
+const middleware = require('./middleware');
 const sequelize = require('./sequelize');
+const services = require('./services');
 
 const app = express(feathers());
 
