@@ -27,8 +27,8 @@ class Users extends Service {
 }
 
 function createModel(app) {
-  const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define('users', {
+  const sequelize = app.get('sequelize');
+  const users = sequelize.define('users', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
