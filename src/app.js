@@ -119,7 +119,7 @@ app.configure(services);
   app.publish((data, hook) => {
     return app.channel('authenticated');
   });
-};
+}
 
 app.use(express.notFound());
 app.use(express.errorHandler({ logger }));

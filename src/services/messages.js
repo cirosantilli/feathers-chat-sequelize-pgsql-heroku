@@ -4,7 +4,7 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { Service } = require('feathers-sequelize');
 
 class Messages extends Service {
-};
+}
 
 function createModel (app) {
   const message = app.get('sequelize').define('messages', {
@@ -17,12 +17,11 @@ function createModel (app) {
     message.belongsTo(models.users);
   };
   return message;
-};
+}
 
 /* eslint-disable require-atomic-updates */
 function populateUser(options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
-    // Get `app`, `method`, `params` and `result` from the hook context
     const { app, method, result, params } = context;
     // Function that adds the user to a single message object
     const addUser = async message => {
@@ -48,7 +47,7 @@ function populateUser(options = {}) { // eslint-disable-line no-unused-vars
 
     return context;
   };
-};
+}
 
 function processMessage(options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
@@ -74,7 +73,7 @@ function processMessage(options = {}) { // eslint-disable-line no-unused-vars
 
     return context;
   };
-};
+}
 
 module.exports = function (app) {
   const Model = createModel(app);
@@ -95,7 +94,6 @@ module.exports = function (app) {
       patch: [],
       remove: []
     },
-
     after: {
       all: [populateUser()],
       find: [],
@@ -105,7 +103,6 @@ module.exports = function (app) {
       patch: [],
       remove: []
     },
-
     error: {
       all: [],
       find: [],

@@ -30,8 +30,11 @@ describe('messages service', () => {
     // Additional property has been removed
     assert.ok(!message.additional);
     // `user` has been populated
-    // TODO:after migration to SQLite, the first is String,
+    // TODO:after migration to SQLite, the first is String (wrong?),
     // and the other is Date as expected, so assert fails.
+    // The problem can be tracked to populateUser which calls
+    // app.service('users').get(message.userId, params)
+    // and the return of that has a string for date.
     //console.error(message.user.createdAt.constructor);
     //console.error(user.createdAt.constructor);
     //assert.deepEqual(message.user, user);
