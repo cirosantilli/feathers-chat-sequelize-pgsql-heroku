@@ -30,12 +30,11 @@ npm start
 - enable the PostgreSQL Heroku add-on with:
 
   ```
-  heroku addons:create heroku-postgresql:hobby-dev-
+  heroku addons:create heroku-postgresql:hobby-dev
   ```
 
   This automatically sets the `DATABASE_URL` environment variable for us.
 - in [config/production.json](config/production.json) edit `host` to your correct value
-- in the Heroku app Settings, set the `NODE_ENV` environment variable to `production`
 
 After running those steps, we managed to get the app running successfully at <https://cirosantilli-feathersjs-chat.herokuapp.com/> on March 2021!!!
 

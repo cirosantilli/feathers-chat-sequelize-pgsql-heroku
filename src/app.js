@@ -37,6 +37,7 @@ app.configure(socketio());
       freezeTableName: true
     },
   };
+  let sequelize;
   if (process.env.NODE_ENV === 'production') {
     sequelizeParams.dialect = 'postgres';
     sequelizeParams.dialectOptions = {
@@ -48,14 +49,12 @@ app.configure(socketio());
         rejectUnauthorized: false
       }
     };
-    sequelizeParams.host = app.get('connectionString');
+    sequelize = new Sequelize(app.get('connectionString'), sequelizeParams);
   } else {
     sequelizeParams.dialect = 'sqlite';
     sequelizeParams.storage = app.get('connectionString');
+    sequelize = new Sequelize(sequelizeParams);
   }
-  console.error('asdf');
-  console.error(sequelizeParams);
-  const sequelize = new Sequelize(sequelizeParams);
   app.set('sequelize', sequelize);
   const oldSetup = app.setup;
   // Normally gets called from listen. Tests however don't run listen
