@@ -53,6 +53,8 @@ app.configure(socketio());
     sequelizeParams.dialect = 'sqlite';
     sequelizeParams.storage = app.get('connectionString');
   }
+  console.error('asdf');
+  console.error(sequelizeParams);
   const sequelize = new Sequelize(sequelizeParams);
   app.set('sequelize', sequelize);
   const oldSetup = app.setup;
